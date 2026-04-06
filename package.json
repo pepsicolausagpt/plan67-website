@@ -1,0 +1,23 @@
+{
+  "name": "landscaping-site",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host",
+    "build": "vite build",
+    "deploy": "npm run build && node deploy.js",
+    "lint": "eslint src --ext js,jsx",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.0.1",
+    "basic-ftp": "^5.2.0",
+    "dotenv": "^17.4.1",
+    "vite": "^4.4.0"
+  }
+}
