@@ -33,23 +33,35 @@ function Contacts() {
       return;
     }
 
-    const botToken = import.meta.env.VITE_TG_BOT_TOKEN;
-    const chatId = import.meta.env.VITE_TG_CHAT_ID;
-
-    if (!botToken || !chatId) {
-      alert("Заявка принята! (Токен Telegram пока не настроен, это демо-режим).");
-      setIsSending(false);
-      return;
-    }
-
-    const text = `🔥 Новая заявка (ПЛАН67)!\n\n👤 Имя: ${name}\n📞 Телефон: ${phone}`;
-
     try {
-      const response = await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ chat_id: chatId, text: text })
-      });
+      let response;
+      
+      // В режиме локальной разработки (npm run dev) отправляем напрямую
+      if (import.meta.env.DEV) {
+        const botToken = import.meta.env.VITE_TG_BOT_TOKEN;
+        const chatId = import.meta.env.VITE_TG_CHAT_ID;
+        
+        if (!botToken || !chatId) {
+          alert("Заявка принята! (Токен Telegram пока не настроен, это демо-режим).");
+          setIsSending(false);
+          return;
+        }
+
+        const text = `🔥 Новая заявка (ПЛАН67)!\n\n👤 Имя: ${name}\n📞 Телефон: ${phone}`;
+        response = await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ chat_id: chatId, text: text })
+        });
+      } else {
+        // На продакшене (после билда) отправляем через безопасный PHP-прокси
+        // Это обходит блокировщики рекламы и скрывает токен от клиентов
+        response = await fetch('/send.php', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name: name, phone: phone })
+        });
+      }
       
       if (response.ok) {
         alert('Заявка успешно отправлена! Мы перезвоним вам в ближайшее время.');
@@ -57,10 +69,11 @@ function Contacts() {
         setPhone('');
       } else {
         const errData = await response.json();
-        alert(`Ошибка от Telegram: ${errData.description || 'Неизвестная ошибка'}\n\nУбедитесь, что вы нажали /start в переписке с ботом, и что Chat ID верный.`);
+        alert(`Ошибка отправки: ${errData.error || errData.description || 'Неизвестная ошибка'}`);
       }
     } catch (error) {
-      alert('Ошибка подключения к сети.');
+      alert('Ошибка подключения к сети. Возможно, соединение блокируется антивирусом или расширением браузера.');
+      console.error(error);
     } finally {
       setIsSending(false);
     }
