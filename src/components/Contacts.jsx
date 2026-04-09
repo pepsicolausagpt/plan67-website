@@ -34,45 +34,36 @@ function Contacts() {
     }
 
     try {
-      let response;
-
-      // При локальном тестировании напрямую на компьютер шлём, чтобы не плодить прокси.
-      if (import.meta.env.DEV) {
-        const botToken = import.meta.env.VITE_TG_BOT_TOKEN;
-        const chatId = import.meta.env.VITE_TG_CHAT_ID;
-        
-        if (!botToken || !chatId) {
-          alert("Заявка принята! (Токен Telegram пока не настроен, демо-режим).");
-          setIsSending(false);
-          return;
-        }
-
-        const text = `🔥 Новая заявка (ПЛАН67)!\n\n👤 Имя: ${name}\n📞 Телефон: ${phone}`;
-        response = await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ chat_id: chatId, text: text })
-        });
-      } else {
-        // На живом сайте защита Vercel будет перехватывать это и слать сама
-        // Никакой айфон не заблокирует запрос к этому же самому сайту :)
-        response = await fetch('/api/telegram', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ name, phone })
-        });
+      const botToken = import.meta.env.VITE_TG_BOT_TOKEN;
+      const chatId = import.meta.env.VITE_TG_CHAT_ID;
+      
+      if (!botToken || !chatId) {
+        // Если токены не настроены (например, в DEV режиме без .env)
+        alert("Заявка принята! (Демо-режим: токены Telegram не настроены).");
+        setIsSending(false);
+        return;
       }
+
+      const text = `🔥 Новая заявка (ПЛАН67)!\n\n👤 Имя: ${name}\n📞 Телефон: ${phone}`;
+      
+      // На GitHub Pages мы шлем запрос напрямую в Telegram API, так как PHP не поддерживается.
+      // Это самый надежный способ для статического хостинга.
+      const response = await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ chat_id: chatId, text: text })
+      });
       
       if (response.ok) {
         alert('Заявка успешно отправлена! Мы перезвоним вам в ближайшее время.');
         setName('');
         setPhone('');
       } else {
-        const errData = await response.json();
-        alert(`Ошибка сервера отправки: ${errData.error || errData.description || 'Неизвестная ошибка'}`);
+        const errData = await response.json().catch(() => ({}));
+        alert(`Ошибка Telegram: ${errData.description || 'Не удалось отправить сообщение'}`);
       }
     } catch (error) {
-      alert('Ошибка подключения к сети. Возможно, запрос заблокирован расширением браузера.');
+      alert('Ошибка подключения к сети. Проверьте интернет или настройки блокировщика рекламы.');
       console.error(error);
     } finally {
       setIsSending(false);
