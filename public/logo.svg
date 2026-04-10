@@ -1,0 +1,24 @@
+<svg width="100" height="100" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Shield Shape -->
+  <path d="M50 5C40 5 30 7.5 20 12.5V45C20 70 50 95 50 95C50 95 80 70 80 45V12.5C70 7.5 60 5 50 5Z" fill="#1E293B" stroke="#0F172A" stroke-width="4"/>
+  
+  <mask id="shieldMask" maskUnits="userSpaceOnUse" x="20" y="5" width="60" height="90">
+    <path d="M50 5C40 5 30 7.5 20 12.5V45C20 70 50 95 50 95C50 95 80 70 80 45V12.5C70 7.5 60 5 50 5Z" fill="white"/>
+  </mask>
+  
+  <g mask="url(#shieldMask)">
+    <!-- Left Half: Stone Bricks -->
+    <rect x="20" y="5" width="30" height="90" fill="#3D444F"/>
+    <path d="M25 15H45M25 25H45M25 35H45M25 45H45M25 55H45M25 65H45M25 75H45M25 85H45
+             M30 15V25M40 25V35M30 35V45M40 45V55M30 55V65M40 65V75M30 75V85" stroke="#4B5563" stroke-width="1.5"/>
+    
+    <!-- Right Half: Grass Green -->
+    <rect x="50" y="5" width="30" height="90" fill="#10B981"/>
+    <!-- Grass blades details -->
+    <path d="M55 85L57 75M60 88L62 70M65 85L64 78M70 88L72 72M75 85L76 76" stroke="#059669" stroke-width="2" stroke-linecap="round"/>
+    <path d="M52 60L54 50M58 63L60 45M64 60L63 53M72 63L74 47M77 60L78 51" stroke="#059669" stroke-width="2" stroke-linecap="round"/>
+  </g>
+  
+  <!-- Subtle Border Highlight -->
+  <path d="M50 5C40 5 30 7.5 20 12.5V45C20 70 50 95 50 95C50 95 80 70 80 45V12.5C70 7.5 60 5 50 5Z" stroke="white" stroke-opacity="0.1" stroke-width="1"/>
+</svg>

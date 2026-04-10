@@ -8,7 +8,7 @@ function BeforeAfter() {
   };
 
   return (
-    <section id="portfolio" className="before-after-section container">
+    <section id="results" className="before-after-section container">
       <h2 className="section-title">Результат, который говорит сам за себя</h2>
       <p style={{ textAlign: 'center', marginBottom: '40px', color: 'var(--text-muted)' }}>
         Потяните ползунок, чтобы увидеть разницу "До" и "После".
@@ -25,9 +25,11 @@ function BeforeAfter() {
         }}
       >
         {/* Базовое (нижнее) изображение — ПОСЛЕ (будет видно справа) */}
+        <div className="image-protection-overlay"></div>
         <img 
           src="/images/after.png" 
           alt="После" 
+          draggable="false"
           style={{
             position: 'absolute',
             top: 0,
@@ -42,6 +44,7 @@ function BeforeAfter() {
         <img 
           src="/images/before.png" 
           alt="До" 
+          draggable="false"
           style={{
             position: 'absolute',
             top: 0,

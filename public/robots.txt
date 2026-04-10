@@ -1,0 +1,7 @@
+User-agent: *
+Disallow: /images/portfolio/
+Disallow: /images/before.png
+Disallow: /images/after.png
+
+User-agent: Googlebot-Image
+Disallow: /

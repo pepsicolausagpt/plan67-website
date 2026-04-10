@@ -3,6 +3,7 @@ import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import Services from './components/Services';
 import BeforeAfter from './components/BeforeAfter';
+import Portfolio from './components/Portfolio';
 import Calculator from './components/Calculator';
 import Contacts from './components/Contacts';
 
@@ -15,6 +16,7 @@ function App() {
       <main>
         <Hero />
         <Services />
+        <Portfolio />
         <BeforeAfter />
         <Calculator />
         <Contacts />

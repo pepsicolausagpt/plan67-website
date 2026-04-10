@@ -4,10 +4,14 @@ function Navbar() {
   return (
     <nav className="navbar">
       <div className="container">
-        <div style={{ fontWeight: 'bold', fontSize: '1.2rem' }}>ПЛАН67</div>
+        <a href="/" className="logo-brand">
+          <img src="/logo.svg" alt="План67 Лого" className="logo-img" />
+          <span>ПЛАН67</span>
+        </a>
         <div className="nav-links">
           <a href="#services">Услуги</a>
-          <a href="#portfolio">До / После</a>
+          <a href="#gallery">Наши работы</a>
+          <a href="#results">До / После</a>
           <a href="#calculator">Калькулятор</a>
           <a href="#contacts">Контакты</a>
         </div>
